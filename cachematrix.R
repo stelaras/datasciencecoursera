@@ -1,21 +1,22 @@
-## This pair of functions is to used to cache the inverse of a matrix 
+## This pair of functions is used to cache the inverse of a matrix 
 ## rather than compute it repeatedly.
 ## If the inverse has already been calculated and the matrix has not 
-## changed the inverse is retrieved from the cache.
+## changed since then, the inverse is retrieved from the cache.
 
 ## This function creates a special "matrix" object that can cache
 ## its inverse, taking advantage of the scoping rules of R language.
 ## Literally, this object is a list containing a function for each of 
 ## the following operations:
-## 1. Setting the value of the matrix
-## 2. Getting the value of the matrix
-## 3. Setting the value of the inverse
-## 4. Getting the value of the inverse
+## 1. Setting the value of the matrix - set(y = matrix())
+## 2. Getting the value of the matrix - get()
+## 3. Setting the value of the inverse - setInverse(m = matrix())
+## 4. Getting the value of the inverse - getInverse()
 
 makeCacheMatrix <- function(x = matrix()) {
     inverse <- NULL
     set <- function(y) {
         x <<- y
+		## If the matrix is changed, the cached inverse is cleared
         inverse <<- NULL
     }
     get <- function() {
